@@ -1,6 +1,1 @@
-.Weather-widget-app {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    z-index: 5;
-  }
+@import url("../Element/Element.css");

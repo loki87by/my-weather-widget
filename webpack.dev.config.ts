@@ -17,7 +17,7 @@ const config: Configuration = {
     publicPath: "/",
   },
   entry: "./src/index.tsx",
-  
+
   module: {
     rules: [
       {
@@ -36,7 +36,7 @@ const config: Configuration = {
       },
       {
         test: /\.(png|svg|jpg|gif|woff2)$/,
-        loader: 'file-loader'
+        loader: "file-loader",
       },
       {
         test: /\.css$/,
@@ -50,7 +50,6 @@ const config: Configuration = {
             },
           },
           { loader: "css-loader", options: { importLoaders: 1 } },
-          { loader: "postcss-loader" },
         ],
       },
     ],
@@ -73,7 +72,7 @@ const config: Configuration = {
   ],
   devtool: "inline-source-map",
   devServer: {
-    contentBase: path.join(__dirname, 'public'),
+    contentBase: path.join(__dirname, "public"),
     historyApiFallback: true,
     port: 8080,
     open: true,

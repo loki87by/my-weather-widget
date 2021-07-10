@@ -1,0 +1,27 @@
+.Weather-widget-app {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 5;
+  max-width: 50%;
+  padding: 5px;
+  border: 5px solid rgba(0, 0, 0, 0.5);
+}
+
+.Weather-widget-app__block {
+  display: flex;
+}
+
+.Weather-widget-app__block-img {
+  width: 15px;
+  height: 15px;
+}
+
+.Weather-widget-app__subblock {
+  width: 50%;
+  display: flex;
+}
+
+.Weather-widget-app__subblock > h4 {
+  margin: 0;
+}
