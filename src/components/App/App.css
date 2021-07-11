@@ -1,1 +1,50 @@
 @import url("../Element/Element.css");
+@import url("../Settings/Settings.css");
+
+.Weather-widget-app {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 5;
+  width: 30%;
+  min-height: 50px;
+  padding: 5px;
+  border: 5px solid rgba(0, 0, 0, 0.5);
+}
+
+.Weather-widget-app__container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.Weather-widget-app__container:nth-child(1n + 1) {
+  margin-top: 5px;
+}
+
+.Weather-widget-app__settings-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 6;
+  width: 20px;
+  cursor: pointer;
+  transform: rotate(45deg);
+}
+
+.Weather-widget-app__settings-add {
+  margin-top: 20px;
+}
+
+.Weather-widget-app__settings-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Weather-widget-app__settings-input {
+  width: 85%;
+}
+
+.Weather-widget-app__settings-submit {
+  width: 10%;
+}

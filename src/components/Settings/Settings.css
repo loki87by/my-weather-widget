@@ -1,0 +1,25 @@
+.Weather-widget-app__settings-element {
+  margin-top: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(167, 162, 162, 0.2);
+}
+
+.Weather-widget-app__settings-item {
+  display: flex;
+  align-items: center;
+}
+
+.Weather-widget-app__settings-hamburger{
+  width: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.Weather-widget-app__settings-close{
+  width: 20px;
+  align-self: flex-end;
+  cursor: pointer
+}
