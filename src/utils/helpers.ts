@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const beaufort = (num: number): string => {
   let string;
   if (num <= 0.2) {
@@ -70,4 +71,29 @@ export const windDirectioon = (num: number): string => {
 
 export const devPoint = (temp: number, hum: number): number => {
   return Math.round(temp - (1 - hum / 100) / 0.05);
+};
+
+export const getNextElement = (
+  cursorPosition: number,
+  currentElement: HTMLElement
+): Element | null => {
+  const currentElementCoord = currentElement.getBoundingClientRect();
+  const currentElementCenter =
+    currentElementCoord.y + currentElementCoord.height / 2;
+  const nextElement =
+    cursorPosition < currentElementCenter
+      ? currentElement
+      : currentElement.nextElementSibling;
+  return nextElement;
+};
+
+export const itemsIdArray = (
+  itemsList: Element[],
+  locationArray: any[]
+): any[] => {
+  const resultArray: any[] = [];
+  itemsList.forEach((item) => {
+    resultArray.push(locationArray[+item.id.replace(/\D+/gi, "")]);
+  });
+  return resultArray;
 };

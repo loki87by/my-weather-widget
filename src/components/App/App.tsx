@@ -4,6 +4,7 @@ import Weather from "../Api/Api";
 import Element from "../Element/Element";
 import Settings from "../Settings/Settings";
 import { Position } from "../../utils/types";
+import { PAGINATION_COUNTER, paginationPagesArray } from "../../utils/consts";
 import settings from "../../assets/settings.svg";
 import enter from "../../assets/enter-arrow.svg";
 import "../../index.css";
@@ -11,8 +12,15 @@ import "../../index.css";
 function App(): any {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isSettings, setSettings] = React.useState(false);
+  const [apiError, setApiError] = React.useState(false);
+  const [pagination, setPagination] = React.useState(false);
   const [locationArray, setLocationArray] = React.useState([] as any[]);
+  const [currentlocationArray, setCurrentLocationArray] = React.useState(
+    locationArray.slice(0, 3)
+  );
+  const [paginationPages, setPaginationPages] = React.useState([] as number[]);
   const [newLocation, setNewLocation] = React.useState("");
+  const [labelText, setLabelText] = React.useState("Add location");
 
   const geo = navigator.geolocation;
   React.useEffect(() => {
@@ -25,11 +33,10 @@ function App(): any {
         };
         const api = new Weather(pos as Position);
         Promise.resolve(api.getWeather()).then((response) => {
-          console.log(response);
           setIsLoading(true);
-          const arr = [];
-          arr.push(response);
-          setLocationArray(arr);
+          const responseArray = [];
+          responseArray.push(response);
+          setLocationArray(responseArray);
         });
       });
     }
@@ -39,35 +46,52 @@ function App(): any {
   function toogleSettings() {
     const reverse = !isSettings;
     setSettings(reverse);
+    setCurrentLocationArray(locationArray.slice(0, 3));
   }
 
-  function inputNewLocation(event: React.FormEvent<HTMLInputElement>) {
-    setNewLocation((event.target as HTMLInputElement).value);
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  React.useEffect(() => {
+    const app = document.querySelector(".Weather-widget-app");
+    const appHeight = (app as HTMLElement).offsetHeight;
+    if (appHeight > window.innerHeight) {
+      setPagination(true);
+      const pages = paginationPagesArray(locationArray.length);
+      setPaginationPages(pages);
+    }
+  });
 
   function changeNewLocation() {
-    console.log(newLocation);
     const obj: Position = {};
     obj.city = newLocation;
     const api = new Weather(obj);
     Promise.resolve(api.getWeather()).then((response) => {
-      console.log(response);
-      setIsLoading(true);
-      const arr = locationArray.slice();
-      arr.push(response);
-      setLocationArray(arr);
+      if (response) {
+        const { name } = response as any;
+        setIsLoading(true);
+        if (!locationArray.some((i) => i.name === name)) {
+          const arr = locationArray.slice();
+          arr.push(response);
+          setLocationArray(arr);
+        }
+        setNewLocation("");
+      } else {
+        setLabelText("Wrong city, please retry");
+        setApiError(true);
+        setTimeout(() => {
+          document
+            .querySelector(".Weather-widget-app__settings-add")
+            ?.removeAttribute("color");
+          setLabelText("Add location");
+          setApiError(false);
+        }, 5000);
+      }
     });
   }
 
-  function deleteElement(num: number) {
-    const arr = locationArray
-      .map((it, ind) => {
-        if (ind !== +num) {
-          return it;
-        }
-      })
-      .filter((i) => i !== undefined);
-    setLocationArray(arr);
+  function changePage(num: number) {
+    const index = num * PAGINATION_COUNTER;
+    const arr = locationArray.slice(index, index + PAGINATION_COUNTER);
+    setCurrentLocationArray(arr);
   }
 
   // uncomment next lines after prod
@@ -96,31 +120,33 @@ function App(): any {
             />
           )}
           {isSettings ? (
+            <Settings
+              changeNewLocation={changeNewLocation}
+              enter={enter}
+              setNewLocation={setNewLocation}
+              locationArray={locationArray}
+              apiError={apiError}
+              labelText={labelText}
+              setLocationArray={setLocationArray}
+              newLocation={newLocation}
+            />
+          ) : pagination ? (
             <>
-              <h4>Settings</h4>
-              {locationArray.map((item, index) => (
-                <Settings
-                  key={index}
-                  locationArray={locationArray}
-                  id={`item-${index}`}
-                  deleteElement={deleteElement}
-                  apiResponse={item}
-                />
+              {currentlocationArray.map((item, index) => (
+                <Element key={index} apiResponse={item} />
               ))}
-              <h4 className="Weather-widget-app__settings-add">Add location</h4>
-              <div className="Weather-widget-app__settings-form">
-                <input
-                  className="Weather-widget-app__settings-input"
-                  type="text"
-                  onInput={inputNewLocation}
-                />
-                <img
-                  className="Weather-widget-app__settings-submit"
-                  src={enter}
-                  alt="confirm"
-                  onClick={changeNewLocation}
-                />
-              </div>
+              <nav className="App__pagination-nav">
+                {paginationPages.map((item, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      changePage(item);
+                    }}
+                  >
+                    {item + 1}
+                  </button>
+                ))}
+              </nav>
             </>
           ) : (
             locationArray.map((item, index) => (

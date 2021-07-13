@@ -1,5 +1,5 @@
 @import url("../Element/Element.css");
-@import url("../Settings/Settings.css");
+@import url("../SettingsItem/SettingsItem.css");
 
 .Weather-widget-app {
   position: fixed;
@@ -20,6 +20,10 @@
 
 .Weather-widget-app__container:nth-child(1n + 1) {
   margin-top: 5px;
+}
+
+.Weather-widget-app__settings-container {
+  display: block;
 }
 
 .Weather-widget-app__settings-button {

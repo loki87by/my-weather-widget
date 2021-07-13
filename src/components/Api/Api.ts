@@ -18,7 +18,6 @@ export default class Weather {
     } else {
       url = `${this.baseUrl}lat=${this.param.lat}&lon=${this.param.lng}&appid=${this.key}&units=metric&lang=ru`;
     }
-
     return fetch(url, {
       method: "GET",
     })

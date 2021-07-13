@@ -12,14 +12,14 @@
   align-items: center;
 }
 
-.Weather-widget-app__settings-hamburger{
+.Weather-widget-app__settings-hamburger {
   width: 10px;
   margin-right: 10px;
-  cursor: pointer;
+  cursor: grab;
 }
 
-.Weather-widget-app__settings-close{
+.Weather-widget-app__settings-close {
   width: 20px;
   align-self: flex-end;
-  cursor: pointer
+  cursor: pointer;
 }

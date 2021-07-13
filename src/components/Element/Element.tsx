@@ -11,21 +11,20 @@ function Element(props: any): any {
   const { description, icon } = weather[0];
   const { speed, deg } = wind;
   const { country } = sys;
-  // const firstDescriptionSymbol = description.bla.charAt(0).toUpperCase()
-  // const camelDescription = description.replace(/^./, firstDescriptionSymbol)
 
   return (
     <>
       <h3>{`${name}, ${country}`}</h3>
-      <div className="Weather-widget-app__subblock">
+      <div className="Weather-widget-app__block">
         <img src={`http://openweathermap.org/img/wn/${icon}.png`} alt="img" />
         <h2>{Math.round(temp)}℃</h2>
       </div>
-      <h4>{`Feels like ${Math.round(feels_like)}℃. ${description.replace(/^./, description.charAt(0).toUpperCase())}. ${beaufort(
-        speed
-      )}`}</h4>
-      <div className="Weather-widget-app__block">
-        <div className="Weather-widget-app__subblock">
+      <section className="Weather-widget-app__block-container">
+        <h4>{`Feels like ${Math.round(feels_like)}℃. ${description.replace(
+          /^./,
+          description.charAt(0).toUpperCase()
+        )}. ${beaufort(speed)}`}</h4>
+        <div className="Weather-widget-app__block">
           <img
             className="Weather-widget-app__block-img"
             style={{ transform: `rotate(${deg}deg)` }}
@@ -34,7 +33,7 @@ function Element(props: any): any {
           />
           <h5>{` ${speed}м/с, ${windDirectioon(deg)}`}</h5>
         </div>
-        <div className="Weather-widget-app__subblock">
+        <div className="Weather-widget-app__block">
           <img
             className="Weather-widget-app__block-img"
             src={bar}
@@ -42,18 +41,16 @@ function Element(props: any): any {
           />
           <h5>{`${pressure}гПа`}</h5>
         </div>
-      </div>
-      <div className="Weather-widget-app__block">
-        <div className="Weather-widget-app__subblock">
+        <div className="Weather-widget-app__block">
           <h5>{`Влажность ${humidity}%`}</h5>
         </div>
-        <div className="Weather-widget-app__subblock">
+        <div className="Weather-widget-app__block">
           <h5>{`Точка росы ${devPoint(feels_like, humidity)}℃`}</h5>
         </div>
-      </div>
-      <div className="Weather-widget-app__block">
-        <h5>{`Visibility: ${visibility / 1000}км`}</h5>
-      </div>
+        <div className="Weather-widget-app__block">
+          <h5>{`Visibility: ${visibility / 1000}км`}</h5>
+        </div>
+      </section>
     </>
   );
 }

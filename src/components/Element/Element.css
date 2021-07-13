@@ -1,7 +1,7 @@
-.Weather-widget-app__block {
+.Weather-widget-app__block-container {
   display: flex;
-  align-items: center;
-  margin: 5px 0;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 .Weather-widget-app__block-img {
@@ -9,10 +9,11 @@
   height: 15px;
 }
 
-.Weather-widget-app__subblock {
+.Weather-widget-app__block {
   width: 50%;
   display: flex;
   align-items: center;
+  text-align: center;
 }
 
 .Weather-widget-app__subblock > h4 {
