@@ -1,0 +1,30 @@
+.Weather-widget-app__settings-container {
+  display: block;
+}
+
+.Weather-widget-app__settings-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 6;
+  width: 20px;
+  cursor: pointer;
+  transform: rotate(45deg);
+}
+
+.Weather-widget-app__settings-add {
+  margin-top: 20px;
+}
+
+.Weather-widget-app__settings-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Weather-widget-app__settings-input {
+  width: 85%;
+}
+
+.Weather-widget-app__settings-submit {
+  width: 10%;
+}

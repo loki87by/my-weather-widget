@@ -1,16 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import { beaufort, windDirectioon, devPoint } from "../../utils/helpers";
+import { TranslationContext } from '../../utils/tranlationContext';
+import { devPoint } from "../../utils/helpers";
+import { beaufort, windDirectioon } from "../../utils/consts";
+import { ElementProps, ContextProps } from "../../utils/types";
 import arrow from "../../assets/arrow.svg";
 import bar from "../../assets/barometr.svg";
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-function Element(props: any): any {
+function Element(props: ElementProps): any {
   const { name, main, weather, wind, sys, visibility } = props.apiResponse;
   const { temp, feels_like, pressure, humidity } = main;
   const { description, icon } = weather[0];
   const { speed, deg } = wind;
   const { country } = sys;
+  const translation = React.useContext(TranslationContext);
 
   return (
     <>
@@ -20,10 +23,12 @@ function Element(props: any): any {
         <h2>{Math.round(temp)}℃</h2>
       </div>
       <section className="Weather-widget-app__block-container">
-        <h4>{`Feels like ${Math.round(feels_like)}℃. ${description.replace(
+        <h4>{`Feels like ${Math.round(feels_like)}℃. ${(
+          description as string
+        ).replace(
           /^./,
-          description.charAt(0).toUpperCase()
-        )}. ${beaufort(speed)}`}</h4>
+          (description as string).charAt(0).toUpperCase()
+        )}. ${beaufort(speed as number, translation as ContextProps)}`}</h4>
         <div className="Weather-widget-app__block">
           <img
             className="Weather-widget-app__block-img"
@@ -31,7 +36,7 @@ function Element(props: any): any {
             src={arrow}
             alt="arrow"
           />
-          <h5>{` ${speed}м/с, ${windDirectioon(deg)}`}</h5>
+          <h5>{` ${speed}м/с, ${windDirectioon(deg as number, translation as ContextProps)}`}</h5>
         </div>
         <div className="Weather-widget-app__block">
           <img

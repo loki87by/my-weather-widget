@@ -1,17 +1,18 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import hamburger from "../../assets/hamburger.svg";
 import trash from "../../assets/trash.svg";
+import { SettingsItemProps } from "../../utils/types";
 
-function SettingsItem(props: any): any {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function SettingsItem(props: SettingsItemProps): any {
   const { name, sys } = props.apiResponse;
   const { country } = sys;
 
   function deleteItem(event: React.MouseEvent) {
     const index = event.currentTarget.parentElement?.id.split("-")[1];
-    console.log(index);
-    props.deleteElement(index);
+    if (index) {
+      props.deleteElement(+index);
+    }
   }
 
   return (
@@ -21,6 +22,7 @@ function SettingsItem(props: any): any {
       id={props.id}
       onDragStart={props.onDragStart}
       onDragOver={props.onDragOver}
+      onDragEnd={props.onDragEnd}
     >
       <div className="Weather-widget-app__settings-item">
         {props.locationArray.length > 1 ? (

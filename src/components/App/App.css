@@ -1,4 +1,5 @@
 @import url("../Element/Element.css");
+@import url("../Settings/Settings.css");
 @import url("../SettingsItem/SettingsItem.css");
 
 .Weather-widget-app {
@@ -22,33 +23,17 @@
   margin-top: 5px;
 }
 
-.Weather-widget-app__settings-container {
-  display: block;
-}
-
-.Weather-widget-app__settings-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 6;
-  width: 20px;
-  cursor: pointer;
-  transform: rotate(45deg);
-}
-
-.Weather-widget-app__settings-add {
-  margin-top: 20px;
-}
-
-.Weather-widget-app__settings-form {
+.Weather-widget-app__pagination-nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.Weather-widget-app__settings-input {
-  width: 85%;
+.Weather-widget-app__pagination-button {
+  margin: 2px;
 }
 
-.Weather-widget-app__settings-submit {
-  width: 10%;
+.Weather-widget-app__pagination-button_active {
+  font-weight: 900;
+  background-color: rgb(224, 247, 144);
 }

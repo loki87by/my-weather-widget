@@ -1,64 +1,84 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
+import { TranslationContext, translations } from '../../utils/tranlationContext';
 import Weather from "../Api/Api";
 import Element from "../Element/Element";
 import Settings from "../Settings/Settings";
-import { Position } from "../../utils/types";
-import { PAGINATION_COUNTER, paginationPagesArray } from "../../utils/consts";
+import { Position, ResponceObject } from "../../utils/types";
+import { paginationPagesArray, localSaveData } from "../../utils/helpers";
+import { PAGINATION_COUNTER } from "../../utils/consts";
 import settings from "../../assets/settings.svg";
 import enter from "../../assets/enter-arrow.svg";
 import "../../index.css";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function App(): any {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isSettings, setSettings] = React.useState(false);
   const [apiError, setApiError] = React.useState(false);
   const [pagination, setPagination] = React.useState(false);
-  const [locationArray, setLocationArray] = React.useState([] as any[]);
-  const [currentlocationArray, setCurrentLocationArray] = React.useState(
-    locationArray.slice(0, 3)
+  const [activePaginationButton, setActivePaginationButton] = React.useState(0);
+  const [locationArray, setLocationArray] = React.useState<ResponceObject[]>(
+    []
   );
+  const [currentLocationArray, setCurrentLocationArray] = React.useState<
+    ResponceObject[]
+  >(locationArray.slice(0, PAGINATION_COUNTER) as ResponceObject[]);
   const [paginationPages, setPaginationPages] = React.useState([] as number[]);
   const [newLocation, setNewLocation] = React.useState("");
+  const [lang, setLang] = React.useState(0);
   const [labelText, setLabelText] = React.useState("Add location");
-
   const geo = navigator.geolocation;
+  const localData = localStorage.getItem("weather-widget-data");
+
   React.useEffect(() => {
-    let pos = {};
-    if (geo) {
-      geo.getCurrentPosition((position: GeolocationPosition) => {
-        pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        const api = new Weather(pos as Position);
-        Promise.resolve(api.getWeather()).then((response) => {
-          setIsLoading(true);
-          const responseArray = [];
-          responseArray.push(response);
-          setLocationArray(responseArray);
+    if (!localData) {
+      let pos = {};
+      if (geo) {
+        geo.getCurrentPosition((position: GeolocationPosition) => {
+          pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          const api = new Weather(pos as Position);
+          Promise.resolve(api.getWeather()).then((response) => {
+            setIsLoading(true);
+            const responseArray = [];
+            responseArray.push(response);
+            setLocationArray(responseArray as ResponceObject[]);
+            localSaveData(responseArray as ResponceObject[]);
+          });
         });
-      });
+      }
+    } else {
+      const weatherData = JSON.parse(localData);
+      setLocationArray(weatherData);
+      setCurrentLocationArray(
+        weatherData.slice(
+          PAGINATION_COUNTER * activePaginationButton,
+          PAGINATION_COUNTER * (activePaginationButton + 1)
+        ) as ResponceObject[]
+      );
+      setIsLoading(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [geo, localData, activePaginationButton]);
+
+  React.useEffect(() => {
+    if (locationArray.length > PAGINATION_COUNTER) {
+      if (!pagination) {
+        setPagination(true);
+      }
+      const pages = paginationPagesArray(
+        locationArray.length,
+        PAGINATION_COUNTER
+      );
+      setPaginationPages(pages);
+    }
+  }, [locationArray.length, pagination]);
 
   function toogleSettings() {
     const reverse = !isSettings;
     setSettings(reverse);
-    setCurrentLocationArray(locationArray.slice(0, 3));
   }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(() => {
-    const app = document.querySelector(".Weather-widget-app");
-    const appHeight = (app as HTMLElement).offsetHeight;
-    if (appHeight > window.innerHeight) {
-      setPagination(true);
-      const pages = paginationPagesArray(locationArray.length);
-      setPaginationPages(pages);
-    }
-  });
 
   function changeNewLocation() {
     const obj: Position = {};
@@ -66,12 +86,13 @@ function App(): any {
     const api = new Weather(obj);
     Promise.resolve(api.getWeather()).then((response) => {
       if (response) {
-        const { name } = response as any;
+        const { name } = response as ResponceObject;
         setIsLoading(true);
         if (!locationArray.some((i) => i.name === name)) {
-          const arr = locationArray.slice();
-          arr.push(response);
-          setLocationArray(arr);
+          const responseArray = locationArray.slice();
+          responseArray.push(response as ResponceObject);
+          setLocationArray(responseArray);
+          localSaveData(responseArray);
         }
         setNewLocation("");
       } else {
@@ -90,8 +111,9 @@ function App(): any {
 
   function changePage(num: number) {
     const index = num * PAGINATION_COUNTER;
-    const arr = locationArray.slice(index, index + PAGINATION_COUNTER);
-    setCurrentLocationArray(arr);
+    const currentArray = locationArray.slice(index, index + PAGINATION_COUNTER);
+    setCurrentLocationArray(currentArray as ResponceObject[]);
+    setActivePaginationButton(num);
   }
 
   // uncomment next lines after prod
@@ -102,6 +124,7 @@ function App(): any {
 
   return (
     <div className="Weather-widget-app">
+      <TranslationContext.Provider value={translations[0]}>
       {isLoading ? (
         <div className="Weather-widget-app__container">
           {isSettings ? (
@@ -129,16 +152,22 @@ function App(): any {
               labelText={labelText}
               setLocationArray={setLocationArray}
               newLocation={newLocation}
+              setLang={setLang}
+              lang={lang}
             />
           ) : pagination ? (
             <>
-              {currentlocationArray.map((item, index) => (
+              {currentLocationArray.map((item, index) => (
                 <Element key={index} apiResponse={item} />
               ))}
-              <nav className="App__pagination-nav">
+              <nav className="Weather-widget-app__pagination-nav">
                 {paginationPages.map((item, index) => (
                   <button
                     key={index}
+                    className={`Weather-widget-app__pagination-button ${
+                      activePaginationButton === index &&
+                      "Weather-widget-app__pagination-button_active"
+                    }`}
                     onClick={() => {
                       changePage(item);
                     }}
@@ -157,6 +186,7 @@ function App(): any {
       ) : (
         <h3>Please wait...</h3>
       )}
+      </TranslationContext.Provider>
     </div>
   );
 }
