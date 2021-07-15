@@ -12,6 +12,15 @@
   transform: rotate(45deg);
 }
 
+.Weather-widget-app__settings-lang {
+  margin-top: 10px;
+  display: flex;
+}
+
+.Weather-widget-app__settings-lang-button {
+  margin-left: 10px;
+}
+
 .Weather-widget-app__settings-add {
   margin-top: 20px;
 }

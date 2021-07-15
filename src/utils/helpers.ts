@@ -41,6 +41,6 @@ export const itemsIdArray = (
 
 export const localSaveData = (data: ResponceObject[]): void => {
   const weatherData = JSON.stringify(data);
-      localStorage.removeItem("weather-widget-data");
-      localStorage.setItem("weather-widget-data", weatherData);
-}
+  localStorage.removeItem("weather-widget-data");
+  localStorage.setItem("weather-widget-data", weatherData);
+};

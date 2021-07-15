@@ -33,7 +33,7 @@
   margin: 2px;
 }
 
-.Weather-widget-app__pagination-button_active {
+.Weather-widget-app-button_active {
   font-weight: 900;
   background-color: rgb(224, 247, 144);
 }

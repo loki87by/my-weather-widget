@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App/App";
 export {};
 declare global {
   interface Window {
-    MyWidget: any;
+    MyWidget: React.ReactElement;
   }
 }
 

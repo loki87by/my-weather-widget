@@ -10,12 +10,11 @@ import { PAGINATION_SETTINGS_COUNTER } from "../../utils/consts";
 import { paginationPagesArray } from "../../utils/helpers";
 import { TranslationContext } from "../../utils/tranlationContext";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function Settings(props: SettingsProps): any {
+function Settings(props: SettingsProps): React.ReactElement {
   const translation = React.useContext(TranslationContext);
   const [currentPaginationPage, setCurrentPaginationPage] = React.useState(0);
   const [pagination, setPagination] = React.useState(false);
-
+  const [needRender, setNeedRender] = React.useState(false);
   const [currentSettingsArray, setCurrentSettingsArray] = React.useState<
     ResponceObject[]
   >(
@@ -29,6 +28,38 @@ function Settings(props: SettingsProps): any {
   const [draggedElement, setDraggedElement] = React.useState(
     document.querySelector(".Weather-widget-app")
   );
+  const localData = localStorage.getItem("weather-widget-data");
+
+  React.useEffect(() => {
+    if (localData) {
+      const oldData = JSON.stringify(props.locationArray);
+      if (oldData !== localData) {
+        const weatherData = JSON.parse(localData);
+        const index = currentPaginationPage * PAGINATION_SETTINGS_COUNTER;
+        const currentArray = weatherData.slice(
+          index,
+          index + PAGINATION_SETTINGS_COUNTER
+        );
+        setCurrentSettingsArray(currentArray as ResponceObject[]);
+      }
+    }
+  }, [localData, currentPaginationPage, props.locationArray]);
+
+  React.useEffect(() => {
+    if (needRender) {
+      const updLocalData = localStorage.getItem("weather-widget-data");
+      if (updLocalData) {
+        const weatherData = JSON.parse(updLocalData);
+        const index = currentPaginationPage * PAGINATION_SETTINGS_COUNTER;
+        const currentArray = weatherData.slice(
+          index,
+          index + PAGINATION_SETTINGS_COUNTER
+        );
+        setCurrentSettingsArray(currentArray as ResponceObject[]);
+      }
+      setNeedRender(false);
+    }
+  }, [needRender, currentPaginationPage]);
 
   React.useEffect(() => {
     if (props.locationArray.length > PAGINATION_SETTINGS_COUNTER) {
@@ -119,7 +150,6 @@ function Settings(props: SettingsProps): any {
           updatedLocationArray.push(...arrayPages[i]);
         }
       }
-      props.setLocationArray(updatedLocationArray);
       localSaveData(updatedLocationArray);
       setDropped(false);
     }
@@ -130,30 +160,27 @@ function Settings(props: SettingsProps): any {
   }
 
   function deleteElement(num: number) {
-    const filteredArray = props.locationArray
-      .map((it: ResponceObject, ind: number) => {
-        if (ind !== +num) {
-          return it;
-        }
-      })
-      .filter((i: ResponceObject | undefined) => i !== undefined);
-    props.setLocationArray(filteredArray as ResponceObject[]);
-    localSaveData(filteredArray as ResponceObject[]);
+    if (localData) {
+      const weatherData = JSON.parse(localData);
+      const filteredArray = weatherData
+        .map((it: ResponceObject, ind: number) => {
+          if (ind !== +num) {
+            return it;
+          }
+        })
+        .filter((i: ResponceObject | undefined) => i !== undefined);
+      localSaveData(filteredArray as ResponceObject[]);
+      setNeedRender(true);
+    }
   }
 
   function changePage(num: number) {
     setCurrentPaginationPage(num);
-    const index = num * PAGINATION_SETTINGS_COUNTER;
-    const currentArray = props.locationArray.slice(
-      index,
-      index + PAGINATION_SETTINGS_COUNTER
-    );
-    setCurrentSettingsArray(currentArray as ResponceObject[]);
   }
 
   return (
     <>
-      <h4>Settings</h4>
+      <h4>{translation.settings}</h4>
       <section className="Weather-widget-app__settings-container">
         {currentSettingsArray.map((item: ResponceObject, index: number) => (
           <SettingsItem
@@ -190,8 +217,24 @@ function Settings(props: SettingsProps): any {
       )}
       <div className="Weather-widget-app__settings-lang">
         <h4>{translation.chooseLang}</h4>
-        <button disabled={props.lang === 0 ? true : false} className={`Weather-widget-app__settings-lang-button ${props.lang === 0 && "Weather-widget-app__settings-lang-button_disabled"}`}>EN</button>
-        <button disabled={props.lang === 1 ? true : false} className={`Weather-widget-app__settings-lang-button ${props.lang === 1 && "Weather-widget-app__settings-lang-button_disabled"}`}>RU</button>
+        <button
+          disabled={props.lang === 0 ? true : false}
+          className={`Weather-widget-app__settings-lang-button ${
+            props.lang === 1 && "Weather-widget-app-button_active"
+          }`}
+          onClick={props.changeLanguage}
+        >
+          EN
+        </button>
+        <button
+          disabled={props.lang === 1 ? true : false}
+          className={`Weather-widget-app__settings-lang-button ${
+            props.lang === 0 && "Weather-widget-app-button_active"
+          }`}
+          onClick={props.changeLanguage}
+        >
+          RU
+        </button>
       </div>
       <h4
         className="Weather-widget-app__settings-add"

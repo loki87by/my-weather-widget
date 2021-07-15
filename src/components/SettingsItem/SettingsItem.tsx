@@ -3,8 +3,7 @@ import hamburger from "../../assets/hamburger.svg";
 import trash from "../../assets/trash.svg";
 import { SettingsItemProps } from "../../utils/types";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function SettingsItem(props: SettingsItemProps): any {
+function SettingsItem(props: SettingsItemProps): React.ReactElement {
   const { name, sys } = props.apiResponse;
   const { country } = sys;
 

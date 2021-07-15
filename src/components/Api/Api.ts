@@ -14,9 +14,9 @@ export default class Weather {
   getWeather<T>(): Promise<T> {
     let url: string;
     if (this.param.city) {
-      url = `${this.baseUrl}q=${this.param.city}&appid=${this.key}&units=metric&lang=ru`;
+      url = `${this.baseUrl}q=${this.param.city}&appid=${this.key}&units=metric&lang=${this.param.lang}`;
     } else {
-      url = `${this.baseUrl}lat=${this.param.lat}&lon=${this.param.lng}&appid=${this.key}&units=metric&lang=ru`;
+      url = `${this.baseUrl}lat=${this.param.lat}&lon=${this.param.lon}&appid=${this.key}&units=metric&lang=${this.param.lang}`;
     }
     return fetch(url, {
       method: "GET",

@@ -2,8 +2,9 @@ import { Dispatch, SetStateAction } from "react";
 
 export interface Position {
   lat?: number;
-  lng?: number;
+  lon?: number;
   city?: string;
+  lang?: string;
 }
 
 interface ResponceObjectNumberProps {
@@ -20,6 +21,7 @@ export interface ResponceObject {
   wind: ResponceObjectMixedProps;
   sys: ResponceObjectMixedProps;
   visibility: number;
+  coord: ResponceObjectNumberProps;
 }
 
 export interface ElementProps {
@@ -36,7 +38,7 @@ export interface SettingsProps {
   setLocationArray: Dispatch<SetStateAction<ResponceObject[]>>;
   newLocation: string;
   lang: number;
-  setLang: Dispatch<SetStateAction<number>>;
+  changeLanguage: VoidFunction;
 }
 
 export interface SettingsItemProps {
@@ -49,6 +51,10 @@ export interface SettingsItemProps {
   onDragEnd: () => void;
 }
 
-export type ContextProps = { 
-  [key: string]: string
-};
+export interface ContextProps {
+  [key: string]: string;
+}
+
+export interface Context {
+  [key: number]: ContextProps;
+}
