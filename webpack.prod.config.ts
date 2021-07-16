@@ -12,7 +12,7 @@ const config: webpack.Configuration = {
   output: {
     path: path.resolve(__dirname, "build"),
     filename: "[name].[contenthash].js",
-    publicPath: "https://blablabla2.netlify.app/",
+    publicPath: "https://myweatherwidget.netlify.app/",
     library: "MyApp",
     libraryTarget: "umd",
     umdNamedDefine: true,

@@ -1,21 +1,52 @@
-.Weather-widget-app__block-container {
+.Weather-widget-app__main-block {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.Weather-widget-app__block {
+  width: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+}
+
+.Weather-widget-app__flag-block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.Weather-widget-app__flag {
+  max-width: 40%;
+  border: 1px solid black;
+}
+
+.Weather-widget-app__block-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  padding-bottom: 5px;
+  border-bottom-style: groove;
 }
 
 .Weather-widget-app__block-img {
   width: 15px;
   height: 15px;
-}
-
-.Weather-widget-app__block {
-  width: 50%;
-  display: flex;
-  align-items: center;
-  text-align: center;
-}
-
-.Weather-widget-app__subblock > h4 {
-  margin: 0;
 }

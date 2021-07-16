@@ -3,6 +3,7 @@ import { TranslationContext } from "../../utils/tranlationContext";
 import { devPoint } from "../../utils/helpers";
 import { beaufort, windDirectioon } from "../../utils/consts";
 import { ElementProps, ContextProps } from "../../utils/types";
+import flagsArray from '../../utils/flags'
 import arrow from "../../assets/arrow.svg";
 import bar from "../../assets/barometr.svg";
 
@@ -14,12 +15,24 @@ function Element(props: ElementProps): React.ReactElement {
   const { country } = sys;
   const translation = React.useContext(TranslationContext);
 
+  let flag;
+  flagsArray.forEach((item: string[]) => {
+    if (item[0] === (country as string).toLowerCase()) {
+      flag = item [1].toUpperCase()
+    }
+  })
+
   return (
     <>
       <h3>{`${name}, ${country}`}</h3>
+      <div className="Weather-widget-app__main-block">
       <div className="Weather-widget-app__block">
         <img src={`http://openweathermap.org/img/wn/${icon}.png`} alt="img" />
         <h2>{Math.round(temp)}℃</h2>
+      </div>
+      <div className="Weather-widget-app__flag-block">
+        <img src={flag} className="Weather-widget-app__flag" alt="flag"/>
+      </div>
       </div>
       <section className="Weather-widget-app__block-container">
         <h4>{`${translation.feelsLike} ${Math.round(feels_like)}℃. ${(

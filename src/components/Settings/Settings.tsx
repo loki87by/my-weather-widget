@@ -202,7 +202,7 @@ function Settings(props: SettingsProps): React.ReactElement {
               key={index}
               className={`Weather-widget-app__pagination-button ${
                 currentPaginationPage === index &&
-                "Weather-widget-app__pagination-button_active"
+                "Weather-widget-app-button_active"
               }`}
               onClick={() => {
                 changePage(item);

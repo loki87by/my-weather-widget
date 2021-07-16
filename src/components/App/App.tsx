@@ -172,9 +172,9 @@ function App(): React.ReactElement {
   }, [localData, locationArray]);
 
   // uncomment next lines after prod
-  /* const link = document.createElement("link");
+/*   const link = document.createElement("link");
   link.setAttribute('rel', 'stylesheet')
-  link.setAttribute('href', 'https://blablabla2.netlify.app/main.css')
+  link.setAttribute('href', 'https://myweatherwidget.netlify.app/main.css')
   document.head.appendChild(link) */
 
   return (
