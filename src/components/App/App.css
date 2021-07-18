@@ -12,6 +12,7 @@
   min-height: 50px;
   padding: 5px;
   border: 3px solid rgba(0, 0, 0, 0.5);
+  background-color: #fff;
 }
 
 .Weather-widget-app__container {
