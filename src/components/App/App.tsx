@@ -31,6 +31,21 @@ function App(): React.ReactElement {
   const [labelText, setLabelText] = React.useState("Add location");
   const geo = navigator.geolocation;
   const localData = localStorage.getItem("weather-widget-data");
+  const Mobile =
+    /Mobile|webOS|BlackBerry|IEMobile|MeeGo|mini|Fennec|Windows Phone|Android|iP(ad|od|hone)/i.test(
+      navigator.userAgent
+    );
+  const mobileRef = React.useRef(Mobile);
+
+  React.useEffect(() => {
+    setInterval(() => {
+      const Mobile =
+        /Mobile|webOS|BlackBerry|IEMobile|MeeGo|mini|Fennec|Windows Phone|Android|iP(ad|od|hone)/i.test(
+          navigator.userAgent
+        );
+      mobileRef.current = Mobile;
+    }, 15000);
+  });
 
   React.useEffect(() => {
     if (!localData) {
@@ -172,13 +187,13 @@ function App(): React.ReactElement {
   }, [localData, locationArray]);
 
   // uncomment next lines after prod
-/*   const link = document.createElement("link");
+  const link = document.createElement("link");
   link.setAttribute('rel', 'stylesheet')
   link.setAttribute('href', 'https://myweatherwidget.netlify.app/main.css')
-  document.head.appendChild(link) */
+  document.head.appendChild(link)
 
   return (
-    <div className="Weather-widget-app">
+    <div className={`Weather-widget-app ${mobileRef.current && "Weather-widget-app_mobile"}`}>
       <TranslationContext.Provider value={translations[lang]}>
         {isLoading ? (
           <div className="Weather-widget-app__container">

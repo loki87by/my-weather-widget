@@ -10,14 +10,14 @@ declare global {
 
 // uncomment next lines after prod
 // && need uncomment some lines in app.js
-/* export const init = (selector: HTMLElement): void => {
+export const init = (selector: HTMLElement): void => {
   ReactDOM.render(<App />, selector);
-} */
+}
 
 // commented next lines after prod
-ReactDOM.render(
+/* ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
   document.getElementById("root")
-);
+); */

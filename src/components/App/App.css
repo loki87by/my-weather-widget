@@ -15,6 +15,10 @@
   background-color: #fff;
 }
 
+.Weather-widget-app_mobile{
+  max-width: 50%;
+}
+
 .Weather-widget-app__container {
   position: relative;
   width: 100%;
