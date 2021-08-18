@@ -10,7 +10,7 @@
 ## Для Вставки виджета на вашу страницу используйте код:
 ```html
 <weather-widget />
-<script src="https://myweatherwidget.netlify.app/main.d4c70bf8e252b0fc2223.js"></script>
+<script src="https://myweatherwidget.netlify.app/main.js"></script>
 <script>
   window.addEventListener("DOMContentLoaded", function(event) {
     const widget = document.querySelector('weather-widget')
