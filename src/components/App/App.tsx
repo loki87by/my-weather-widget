@@ -186,6 +186,26 @@ function App(): React.ReactElement {
     }
   }, [localData, locationArray]);
 
+  function close() {
+    const app = document.querySelector(".Weather-widget-app");
+    app?.setAttribute("style", "display: none");
+  }
+
+  function hide() {
+    const app = document.querySelector(".Weather-widget-app");
+    const container = document.querySelector(".Weather-widget-app__container");
+    app?.classList.toggle("Weather-widget-app_hide");
+    container?.classList.toggle("Weather-widget-app__container_hidden");
+    const button = document.querySelector(
+      ".Weather-widget-app__control-btn_hide"
+    );
+    const buttons = document.querySelector(
+      ".Weather-widget-app__control-panel"
+    );
+    buttons?.classList.toggle("Weather-widget-app__control-panel_hide");
+    button?.classList.toggle("Weather-widget-app__control-btn_unhide");
+  }
+
   // uncomment next lines after prod
   const link = document.createElement("link");
   link.setAttribute('rel', 'stylesheet')
@@ -193,66 +213,84 @@ function App(): React.ReactElement {
   document.head.appendChild(link)
 
   return (
-    <div className={`Weather-widget-app ${mobileRef.current && "Weather-widget-app_mobile"}`}>
+    <div
+      className={`Weather-widget-app ${
+        mobileRef.current && "Weather-widget-app_mobile"
+      }`}
+    >
       <TranslationContext.Provider value={translations[lang]}>
         {isLoading ? (
-          <div className="Weather-widget-app__container">
-            {isSettings ? (
-              <h3
-                className="Weather-widget-app__settings-button"
-                onClick={toogleSettings}
-              >
-                +
-              </h3>
-            ) : (
-              <img
-                className="Weather-widget-app__settings-button"
-                onClick={toogleSettings}
-                src={settings}
-                alt="settings"
-              />
-            )}
-            {isSettings ? (
-              <Settings
-                changeNewLocation={changeNewLocation}
-                enter={enter}
-                setNewLocation={setNewLocation}
-                locationArray={locationArray}
-                apiError={apiError}
-                labelText={labelText}
-                setLocationArray={setLocationArray}
-                newLocation={newLocation}
-                lang={lang}
-                changeLanguage={changeLanguage}
-              />
-            ) : pagination ? (
-              <>
-                {currentLocationArray.map((item, index) => (
-                  <Element key={index} apiResponse={item} />
-                ))}
-                <nav className="Weather-widget-app__pagination-nav">
-                  {paginationPages.map((item, index) => (
-                    <button
-                      key={index}
-                      className={`Weather-widget-app__pagination-button ${
-                        activePaginationButton === index &&
-                        "Weather-widget-app-button_active"
-                      }`}
-                      onClick={() => {
-                        changePage(item);
-                      }}
-                    >
-                      {item + 1}
-                    </button>
+          <>
+            <div className="Weather-widget-app__container">
+              {isSettings ? (
+                <h3
+                  className="Weather-widget-app__settings-button"
+                  onClick={toogleSettings}
+                >
+                  +
+                </h3>
+              ) : (
+                <img
+                  className="Weather-widget-app__settings-button"
+                  onClick={toogleSettings}
+                  src={settings}
+                  alt="settings"
+                />
+              )}
+              {isSettings ? (
+                <Settings
+                  changeNewLocation={changeNewLocation}
+                  enter={enter}
+                  setNewLocation={setNewLocation}
+                  locationArray={locationArray}
+                  apiError={apiError}
+                  labelText={labelText}
+                  setLocationArray={setLocationArray}
+                  newLocation={newLocation}
+                  lang={lang}
+                  changeLanguage={changeLanguage}
+                />
+              ) : pagination ? (
+                <>
+                  {currentLocationArray.map((item, index) => (
+                    <Element key={index} apiResponse={item} />
                   ))}
-                </nav>
-              </>
-            ) : (
-              locationArray.map((item, index) => (
-                <Element key={index} apiResponse={item} />
-              ))
-            )}
-          </div>
+                  <nav className="Weather-widget-app__pagination-nav">
+                    {paginationPages.map((item, index) => (
+                      <button
+                        key={index}
+                        className={`Weather-widget-app__pagination-button ${
+                          activePaginationButton === index &&
+                          "Weather-widget-app-button_active"
+                        }`}
+                        onClick={() => {
+                          changePage(item);
+                        }}
+                      >
+                        {item + 1}
+                      </button>
+                    ))}
+                  </nav>
+                </>
+              ) : (
+                locationArray.map((item, index) => (
+                  <Element key={index} apiResponse={item} />
+                ))
+              )}
+            </div>
+            <div className="Weather-widget-app__control-panel">
+              <button
+                className="Weather-widget-app__control-btn Weather-widget-app__control-btn_hide Weather-widget-app__control-btn_unhide"
+                onClick={hide}
+                type="button"
+              ></button>
+              <button
+                className="Weather-widget-app__control-btn Weather-widget-app__control-btn_close"
+                onClick={close}
+                type="button"
+              ></button>
+            </div>
+          </>
         ) : (
           <h3>Please wait...</h3>
         )}

@@ -15,14 +15,23 @@
   background-color: #fff;
 }
 
-.Weather-widget-app_mobile{
+.Weather-widget-app_mobile {
   max-width: 50%;
+}
+
+.Weather-widget-app_hide {
+  width: 38px;
+  min-height: 20px;
 }
 
 .Weather-widget-app__container {
   position: relative;
   width: 100%;
   height: 100%;
+}
+
+.Weather-widget-app__container_hidden {
+  display: none;
 }
 
 .Weather-widget-app__pagination-nav {
@@ -43,4 +52,46 @@
 .Weather-widget-app-button_active {
   font-weight: 900;
   background-color: rgb(224, 247, 144);
+}
+
+.Weather-widget-app__control-panel {
+  position: absolute;
+  top: -32px;
+  right: -3px;
+  width: max-content;
+  height: max-content;
+  border: 3px solid rgba(0, 0, 0, 0.5);
+  border-bottom: transparent;
+}
+
+.Weather-widget-app__control-panel_hide {
+  top: -3px;
+  border: 3px solid rgba(0, 0, 0, 0);
+}
+
+.Weather-widget-app__control-btn {
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 0;
+  border: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin: 2px 2px 0;
+  cursor: pointer;
+}
+
+.Weather-widget-app__control-btn_hide {
+  background-image: url("../../assets/arrow.svg");
+  background-color: gold;
+}
+
+.Weather-widget-app__control-btn_unhide {
+  transform: rotate(180deg);
+  background-color: chartreuse;
+}
+
+.Weather-widget-app__control-btn_close {
+  background-image: url("../../assets/close.svg");
+  background-color: crimson;
 }
