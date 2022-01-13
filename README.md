@@ -5,16 +5,15 @@
  - При первой загрузке выводится информация о погоде для населенного пункта в котором находится пользователь
  - В настройках можно добавить/удалить населенный пункт, а так же поменять их местами
  - Так же можно изменить язык с английского(по дефолту) на русский
- - Реализована пагинация: по умолчанию на основной странице виджета не более 3х элементов, а на странице настроек не более 7.
+ - Реализована пагинация: по умолчанию на основной странице виджета не более 2х элементов, а на странице настроек не более 7.
 #### Данные о погоде берутся с ресурса: [api.openweathermap.org](api.openweathermap.org) и ограничены 60 запросами в минуту.
 ## Для Вставки виджета на вашу страницу используйте код:
 ```html
 <weather-widget />
-<script src="https://myweatherwidget.netlify.app/main.js"></script>
+<script src="https://myweatherwidget.netlify.app/main.5b97e72ea5ec56747edc.js"></script>
 <script>
   window.addEventListener("DOMContentLoaded", function(event) {
     const widget = document.querySelector('weather-widget')
-    console.log(widget)
     MyApp.init(widget); 
   });
 </script>

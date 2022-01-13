@@ -50,9 +50,9 @@ function App(): React.ReactElement {
       if(childs) {
         const settingsButtonWidth = childs[0].clientWidth;
         const firstLabelWidth = childs[1].clientWidth;
-        const containerWidth = main.clientWidth;
+        const containerWidth = main?.clientWidth;
         const sumWidth = settingsButtonWidth * 1.5 + firstLabelWidth;
-        if(containerWidth < sumWidth) {
+        if(containerWidth && containerWidth < sumWidth) {
           childs[1].classList.add('first-title-shift');
         } else {
           childs[1].classList.remove('first-title-shift');
@@ -234,10 +234,10 @@ function App(): React.ReactElement {
   }
 
   // uncomment next lines after prod
-  /* const link = document.createElement("link");
+  const link = document.createElement("link");
   link.setAttribute('rel', 'stylesheet')
   link.setAttribute('href', 'https://myweatherwidget.netlify.app/main.css')
-  document.head.appendChild(link) */
+  document.head.appendChild(link)
 
   return (
     <div
