@@ -50,3 +50,9 @@
   width: 15px;
   height: 15px;
 }
+
+@media (max-width: 786px) {
+  .Weather-widget-app__flag-block {
+    align-items: flex-end;
+  }
+}

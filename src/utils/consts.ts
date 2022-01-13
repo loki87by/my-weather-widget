@@ -1,6 +1,6 @@
 import { ContextProps } from "./types";
 
-export const PAGINATION_COUNTER = 3;
+export const PAGINATION_COUNTER = 2;
 
 export const PAGINATION_SETTINGS_COUNTER = 7;
 

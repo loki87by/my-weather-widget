@@ -14,6 +14,7 @@ import enter from "../../assets/enter-arrow.svg";
 import "../../index.css";
 
 function App(): React.ReactElement {
+  const [screenWidth, setScreenWidth] = React.useState(NaN)
   const [isLoading, setIsLoading] = React.useState(false);
   const [isSettings, setSettings] = React.useState(false);
   const [apiError, setApiError] = React.useState(false);
@@ -36,6 +37,32 @@ function App(): React.ReactElement {
       navigator.userAgent
     );
   const mobileRef = React.useRef(Mobile);
+
+  React.useEffect(() => {
+    function resizeWindow() {
+      const width = Math.min(
+        document.documentElement.clientWidth,
+        window.screen.width
+      );
+      const main = document.querySelector('.Weather-widget-app__container');
+      setScreenWidth(width);
+      const childs = main?.children;
+      if(childs) {
+        const settingsButtonWidth = childs[0].clientWidth;
+        const firstLabelWidth = childs[1].clientWidth;
+        const containerWidth = main.clientWidth;
+        const sumWidth = settingsButtonWidth * 1.5 + firstLabelWidth;
+        if(containerWidth < sumWidth) {
+          childs[1].classList.add('first-title-shift');
+        } else {
+          childs[1].classList.remove('first-title-shift');
+        }
+      }
+    }
+    resizeWindow();
+    window.addEventListener("resize", resizeWindow);
+    return () => window.removeEventListener("resize", resizeWindow);
+  }, [screenWidth]);
 
   React.useEffect(() => {
     setInterval(() => {
@@ -207,10 +234,10 @@ function App(): React.ReactElement {
   }
 
   // uncomment next lines after prod
-  const link = document.createElement("link");
+  /* const link = document.createElement("link");
   link.setAttribute('rel', 'stylesheet')
   link.setAttribute('href', 'https://myweatherwidget.netlify.app/main.css')
-  document.head.appendChild(link)
+  document.head.appendChild(link) */
 
   return (
     <div

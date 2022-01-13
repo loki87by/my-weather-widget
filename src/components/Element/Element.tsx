@@ -18,13 +18,13 @@ function Element(props: ElementProps): React.ReactElement {
   let flag;
   flagsArray.forEach((item: string[]) => {
     if (item[0] === (country as string).toLowerCase()) {
-      flag = item [1].toUpperCase()
+      flag = item[1]
     }
   })
 
   return (
     <>
-      <h3>{`${name}, ${country}`}</h3>
+      <h3 style={{width: 'max-content'}}>{`${name}, ${country}`}</h3>
       <div className="Weather-widget-app__main-block">
       <div className="Weather-widget-app__block">
         <img src={`http://openweathermap.org/img/wn/${icon}.png`} alt="img" />
